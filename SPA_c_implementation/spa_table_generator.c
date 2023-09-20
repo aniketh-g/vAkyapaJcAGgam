@@ -1,5 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+#include<stdbool.h>
 #include "spa.h"  //include the SPA header file
+
+#define MAXCHAR 1000
 
 int main (int argc, char *argv[])
 {
@@ -8,13 +13,6 @@ int main (int argc, char *argv[])
     float min, sec;
 
     //enter required input values into SPA structure
-
-    spa.year          = 2023;
-    spa.month         = 1;
-    spa.day           = 1;
-    spa.hour          = 0;
-    spa.minute        = 0;
-    spa.second        = 0;
     spa.timezone      = 0;
     spa.delta_ut1     = 0;
     spa.delta_t       = 69.2;
@@ -28,29 +26,69 @@ int main (int argc, char *argv[])
     spa.atmos_refract = 0.5667;
     spa.function      = SPA_ALL;
 
-    //call the SPA calculate function and pass the SPA structure
+    FILE *f_date_list, *f_plot_data, *f_list_of_years;
+    char row[MAXCHAR];
+    char *token;
+    int year, month, day, hour, minute;
+    double second;
+    char date_list_name[MAXCHAR] = "./outputs/date_list_xxxx.csv";
+    char plot_data_name[MAXCHAR] = "./outputs/plot_data_xxxx.csv";
+    char line[MAXCHAR];
+    
 
-    result = spa_calculate(&spa);
+    f_list_of_years = fopen("./outputs/list_of_years.txt","r");
+    while(fgets(date_list_name, MAXCHAR, f_list_of_years)){
+        strtok(date_list_name, "\n");
+        for(int i=20;i<20+4;i++){
+            plot_data_name[i] = date_list_name[i];
+        }
+        puts(plot_data_name);
+        
+        f_date_list = fopen(date_list_name,"r");
+        f_plot_data = fopen(plot_data_name, "w+");
+        fprintf(f_plot_data,"theta,r\n");
+        
+        while (feof(f_date_list) != true)
+        {
+            //read data from data_list.csv
+            fgets(row, MAXCHAR, f_date_list);
+            if (feof(f_date_list)) break;
+            token = strtok(row, ",");
+            year = atoi(token);
+            token = strtok(NULL, ",");
+            month = atoi(token);
+            token = strtok(NULL, ",");
+            day = atoi(token);
+            token = strtok(NULL, ",");
+            hour = atoi(token);
+            token = strtok(NULL, ",");
+            minute = atoi(token);
+            token = strtok(NULL, ",");
+            second = atof(token);
 
-    if (result == 0)  //check for SPA errors
-    {
-        //display the results inside the SPA structure
-        printf("Longitude: %f degrees\n", spa.lamda);
-        printf("Right Ascension: %dd%dm%fs\n", (int) spa.alpha, (int) (60*(spa.alpha-(int) spa.alpha)), 60*(60*(spa.alpha-(int) spa.alpha)) - 60*((int) (60*(spa.alpha-(int) spa.alpha))) );
-        printf("Radius: %f\n", spa.r);
+            //enter required input values into SPA structure
+            spa.year          = year;
+            spa.month         = month;
+            spa.day           = day;
+            spa.hour          = hour;
+            spa.minute        = minute;
+            spa.second        = second;
 
-    } else printf("SPA Error Code: %d\n", result);
+            //call the SPA calculate function and pass the SPA structure
+            result = spa_calculate(&spa);
 
-    spa.day = 2;
-    result = spa_calculate(&spa);
+            if (result == 0)  //check for SPA errors
+            {
+                fprintf(f_plot_data,"%f,%f\n", spa.alpha, spa.r);
+                //display the results inside the SPA structure
+                // printf("Longitude: %f degrees\n", spa.lamda);
+                // printf("Right Ascension: %dd%dm%fs\n", (int) spa.alpha, (int) (60*(spa.alpha-(int) spa.alpha)), 60*(60*(spa.alpha-(int) spa.alpha)) - 60*((int) (60*(spa.alpha-(int) spa.alpha))) );
+                // printf("Radius: %f\n", spa.r);
 
-    if (result == 0)  //check for SPA errors
-    {
-        //display the results inside the SPA structure
-        printf("Longitude: %f degrees\n", spa.lamda);
-        printf("Right Ascension: %dd%dm%fs\n", (int) spa.alpha, (int) (60*(spa.alpha-(int) spa.alpha)), 60*(60*(spa.alpha-(int) spa.alpha)) - 60*((int) (60*(spa.alpha-(int) spa.alpha))) );
+            } else printf("SPA Error Code: %d\n", result);
+        }
+    }
 
-    } else printf("SPA Error Code: %d\n", result);
-
+    printf("Successfully computed longitudes and radii\n");
     return 0;
 }

@@ -1,11 +1,21 @@
+OUTPUTDIR = "./outputs"
+
 .PHONY: clean
 clean:
-	@rm -r *.gch *.o
-.PHONY: spa_tester
-spa_tester:
-	@gcc spa_tester.c spa.c -lm -o spa.o
-	@./spa.o
-.PHONY: generate_table
-generate_table:
-	@gcc spa_table_generator.c spa.c -lm -o spa_table_generator.o
-	@./spa_table_generator.o
+	@rm -rf $(OUTPUTDIR)
+	@rm -rf ./__pycache__
+	@mkdir $(OUTPUTDIR)
+.PHONY: test_spa
+test_spa:
+	@gcc spa_tester.c spa.c -lm -o $(OUTPUTDIR)/spa.o
+	@$(OUTPUTDIR)/spa.o
+.PHONY: compute_longitudes
+compute_longitudes:
+	@gcc spa_table_generator.c spa.c -lm -o $(OUTPUTDIR)/spa_table_generator.o
+	#gcc spa_table_generator.c spa.c -lm -o ./outputs/spa_table_generator.o
+	@$(OUTPUTDIR)/spa_table_generator.o
+.PHONY: plot
+plot:
+	@python date_list_generator.py
+	@make compute_longitudes
+	@python plotter.py
