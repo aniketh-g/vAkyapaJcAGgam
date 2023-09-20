@@ -1,5 +1,4 @@
 
-
 /////////////////////////////////////////////
 //          SPA TESTER for SPA.C           //
 //                                         //
@@ -82,6 +81,7 @@ int main (int argc, char *argv[])
         min = 60.0*(spa.sunset - (int)(spa.sunset));
         sec = 60.0*(min - (int)min);
         printf("Sunset:        %02d:%02d:%02d Local Time\n", (int)(spa.sunset), (int)min, (int)sec);
+        printf("Longitude: %f degrees\n", spa.lamda);
 
     } else printf("SPA Error Code: %d\n", result);
 
