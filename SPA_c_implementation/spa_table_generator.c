@@ -32,17 +32,16 @@ int main (int argc, char *argv[])
     int year, month, day, hour, minute;
     double second;
     char date_list_name[MAXCHAR] = "./outputs/date_list_xxxx.csv";
-    char plot_data_name[MAXCHAR] = "./outputs/plot_data_xxxx.csv";
+    char plot_data_name[MAXCHAR] = "./outputs/plot_data_";
     char line[MAXCHAR];
     
 
     f_list_of_years = fopen("./outputs/list_of_years.txt","r");
     while(fgets(date_list_name, MAXCHAR, f_list_of_years)){
         strtok(date_list_name, "\n");
-        for(int i=20;i<20+4;i++){
+        for(int i=20;date_list_name[i] != '\0';i++){
             plot_data_name[i] = date_list_name[i];
         }
-        puts(plot_data_name);
         
         f_date_list = fopen(date_list_name,"r");
         f_plot_data = fopen(plot_data_name, "w+");
@@ -87,8 +86,9 @@ int main (int argc, char *argv[])
 
             } else printf("SPA Error Code: %d\n", result);
         }
+        printf("Successfully generated "); puts(plot_data_name);
     }
 
-    printf("Successfully computed longitudes and radii\n");
+    printf("Successfully computed longitudes and radii for all years\n");
     return 0;
 }
