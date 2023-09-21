@@ -5,9 +5,11 @@ import csv
 date_list_csv = "outputs/date_list.csv"
 
 start_dates = [astropy.time.Time("2023-03-21 00:00:00", scale="utc"),
-               astropy.time.Time("3023-03-21 00:00:00", scale="utc")]
+               astropy.time.Time("3523-03-21 00:00:00", scale="utc"),
+               astropy.time.Time("3523-03-21 00:00:00", scale="utc"),
+               astropy.time.Time("3523-03-21 00:00:00", scale="utc")]
 m = []
-n = 8 #interval in days
+n = 1 #interval in days
 for sd in start_dates:
     with open("./outputs/date_list_%s.csv"%f'{sd.ymdhms.year:04}', 'w', newline="", ) as date_list_csv:
         data = [[(sd+i*n).ymdhms.year,(sd+i*n).ymdhms.month,(sd+i*n).ymdhms.day,(sd+i*n).ymdhms.hour,(sd+i*n).ymdhms.minute,(sd+i*n).ymdhms.second] for i in range(math.floor(365/n))]

@@ -35,4 +35,6 @@ for line in lines:
     fig.set_size_inches(18.5, 18.5)
     img = fig2img(fig)
     img.save('%s.png'%(plotfilename + '_' + line[-8:-4]))
+    print("Plotted %s"%(plotfilename + '_' + line[-8:-4]))
+print("Finished successfully!")
     # plt.show()

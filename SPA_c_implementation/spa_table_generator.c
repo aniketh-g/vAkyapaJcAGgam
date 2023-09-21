@@ -60,7 +60,7 @@ int main (int argc, char *argv[])
             spa.second        = atof(strtok(NULL, ","));
 
             //call the SPA calculate function and pass the SPA structure
-            result = spa_calculate(&spa);
+            result = spa_calculate(&spa, 'f');
 
             if (result == 0)  fprintf(f_plot_data,"%f,%f\n", spa.alpha, spa.r);
             else printf("SPA Error Code: %d\n", result);

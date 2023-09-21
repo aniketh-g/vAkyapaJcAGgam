@@ -1128,16 +1128,18 @@ void calculate_eot_and_sun_rise_transit_set(spa_data *spa)
 // Calculate all SPA parameters and put into structure
 // Note: All inputs values (listed in header file) must already be in structure
 ///////////////////////////////////////////////////////////////////////////////////////////
-int spa_calculate(spa_data *spa)
+int spa_calculate(spa_data *spa, char use_julian_day)
 {
-    int result;
+    int result = 1;
 
-    result = validate_inputs(spa);
+    if(use_julian_day == 'f') result = validate_inputs(spa);
+    else if (spa->jd >= 990575.50000 && spa->jd < 3912880.50000) result = 0;
 
     if (result == 0)
     {
-        spa->jd = julian_day (spa->year,   spa->month,  spa->day,       spa->hour,
-			                  spa->minute, spa->second, spa->delta_ut1, spa->timezone);
+        if(use_julian_day == 'f')
+            spa->jd = julian_day (spa->year,   spa->month,  spa->day,       spa->hour,
+                                spa->minute, spa->second, spa->delta_ut1, spa->timezone);
 
         calculate_geocentric_sun_right_ascension_and_declination(spa);
 

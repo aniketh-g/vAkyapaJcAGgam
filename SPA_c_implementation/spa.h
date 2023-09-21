@@ -201,6 +201,6 @@ double topocentric_azimuth_angle(double azimuth_astro);
 
 
 //Calculate SPA output values (in structure) based on input values passed in structure
-int spa_calculate(spa_data *spa);
+int spa_calculate(spa_data *spa, char use_julian_day);
 
 #endif

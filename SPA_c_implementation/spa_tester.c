@@ -42,6 +42,7 @@ int main (int argc, char *argv[])
     spa.minute        = 30;
     spa.second        = 30;
     spa.timezone      = -7.0;
+    spa.jd            = 2452932.312847;
     spa.delta_ut1     = 0;
     spa.delta_t       = 67;
     spa.longitude     = -105.1786;
@@ -56,7 +57,7 @@ int main (int argc, char *argv[])
 
     //call the SPA calculate function and pass the SPA structure
 
-    result = spa_calculate(&spa);
+    result = spa_calculate(&spa, 't');
 
     if (result == 0)  //check for SPA errors
     {
