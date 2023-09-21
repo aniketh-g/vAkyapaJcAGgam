@@ -12,10 +12,10 @@ int main (int argc, char *argv[])
     int result;
     float min, sec;
 
-    //enter required input values into SPA structure
+    //location parameters
     spa.timezone      = 0;
     spa.delta_ut1     = 0;
-    spa.delta_t       = 69.2;
+    spa.delta_t       = 69.2; //2023AD
     spa.longitude     = 0;
     spa.latitude      = 0;
     spa.elevation     = 0;
@@ -28,8 +28,6 @@ int main (int argc, char *argv[])
 
     FILE *f_date_list, *f_plot_data, *f_list_of_years;
     char row[MAXCHAR];
-    char *token;
-    int year, month, day, hour, minute;
     double second;
     char date_list_name[MAXCHAR] = "./outputs/date_list_xxxx.csv";
     char plot_data_name[MAXCHAR] = "./outputs/plot_data_";
@@ -52,39 +50,20 @@ int main (int argc, char *argv[])
             //read data from data_list.csv
             fgets(row, MAXCHAR, f_date_list);
             if (feof(f_date_list)) break;
-            token = strtok(row, ",");
-            year = atoi(token);
-            token = strtok(NULL, ",");
-            month = atoi(token);
-            token = strtok(NULL, ",");
-            day = atoi(token);
-            token = strtok(NULL, ",");
-            hour = atoi(token);
-            token = strtok(NULL, ",");
-            minute = atoi(token);
-            token = strtok(NULL, ",");
-            second = atof(token);
 
             //enter required input values into SPA structure
-            spa.year          = year;
-            spa.month         = month;
-            spa.day           = day;
-            spa.hour          = hour;
-            spa.minute        = minute;
-            spa.second        = second;
+            spa.year          = atoi(strtok(row, ","));
+            spa.month         = atoi(strtok(NULL, ","));
+            spa.day           = atoi(strtok(NULL, ","));
+            spa.hour          = atoi(strtok(NULL, ","));
+            spa.minute        = atoi(strtok(NULL, ","));
+            spa.second        = atof(strtok(NULL, ","));
 
             //call the SPA calculate function and pass the SPA structure
             result = spa_calculate(&spa);
 
-            if (result == 0)  //check for SPA errors
-            {
-                fprintf(f_plot_data,"%f,%f\n", spa.alpha, spa.r);
-                //display the results inside the SPA structure
-                // printf("Longitude: %f degrees\n", spa.lamda);
-                // printf("Right Ascension: %dd%dm%fs\n", (int) spa.alpha, (int) (60*(spa.alpha-(int) spa.alpha)), 60*(60*(spa.alpha-(int) spa.alpha)) - 60*((int) (60*(spa.alpha-(int) spa.alpha))) );
-                // printf("Radius: %f\n", spa.r);
-
-            } else printf("SPA Error Code: %d\n", result);
+            if (result == 0)  fprintf(f_plot_data,"%f,%f\n", spa.alpha, spa.r);
+            else printf("SPA Error Code: %d\n", result);
         }
         printf("Successfully generated "); puts(plot_data_name);
     }

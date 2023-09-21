@@ -21,24 +21,18 @@ with open("./outputs/plot_list.txt") as file:
 print("Plotting from: ")
 print(lines)
 
-plt.figure(figsize=(10,10))
-
-plotfilename = "./graphs/plot"
+plotfilename = "./graphs/single_year/plot"
 
 for line in lines:
     plot_data = pd.read_csv(line)
 
     thetas = plot_data['theta']
     rs = plot_data['r']
-    # print(line[-8:-4])
+    plt.figure(figsize=(10,10))
     plt.polar(thetas*d2r, rs-r0, label="%s"%line[-8:-4])
-    plotfilename = plotfilename + '_' + line[-8:-4]
-
-print(plotfilename)
-plt.legend()
-
-fig = plt.gcf()
-fig.set_size_inches(18.5, 10.5)
-img = fig2img(fig)
-# img.save('%s.png'%plotfilename)
-plt.show()
+    plt.legend()
+    fig = plt.gcf()
+    fig.set_size_inches(18.5, 18.5)
+    img = fig2img(fig)
+    img.save('%s.png'%(plotfilename + '_' + line[-8:-4]))
+    # plt.show()
