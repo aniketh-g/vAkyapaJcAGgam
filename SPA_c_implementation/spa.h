@@ -177,6 +177,7 @@ typedef struct
     double sunrise;      //local sunrise time (+/- 30 seconds) [fractional hour]
     double sunset;       //local sunset time (+/- 30 seconds) [fractional hour]
 
+    double alpha_na;     //nirayana longitude
 } spa_data;
 
 //-------------- Utility functions for other applications (such as NREL's SAMPA) --------------

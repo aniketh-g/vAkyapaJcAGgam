@@ -1010,6 +1010,13 @@ double sun_rise_and_set(double *m_rts,   double *h_rts,   double *delta_prime, d
           (360.0*cos(deg2rad(delta_prime[sun]))*cos(deg2rad(latitude))*sin(deg2rad(h_prime[sun])));
 }
 
+double ayanamsha(double jd)
+{
+    double d = jd - 2280627.5;
+    return 17.327222222222222 + (50.17470977412731/3600)*(d/365.25) + (0.000222/3600)*(d/365.25)*(d/365.25);
+    // return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Calculate required SPA parameters to get the right ascension (alpha) and declination (delta)
 // Note: JD must be already calculated and in structure
@@ -1161,6 +1168,8 @@ int spa_calculate(spa_data *spa, char use_julian_day)
         spa->azimuth_astro = topocentric_azimuth_angle_astro(spa->h_prime, spa->latitude,
                                                                            spa->delta_prime);
         spa->azimuth       = topocentric_azimuth_angle(spa->azimuth_astro);
+
+        spa->alpha_na      = spa->alpha - ayanamsha(spa->jd);
 
         if ((spa->function == SPA_ZA_INC) || (spa->function == SPA_ALL))
             spa->incidence  = surface_incidence_angle(spa->zenith, spa->azimuth_astro,
