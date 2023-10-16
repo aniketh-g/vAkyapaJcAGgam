@@ -28,7 +28,7 @@ void print_vakyas(FILE *vakya_file){
             fprintf(vakya_file, "%f,%f,%f,+,%d,%d,%f\n", spa.jd, spa.lambda_na, spa.ayanamsha, MIN(V), SEC(V), TRD(V));
         else
             fprintf(vakya_file, "%f,%f,%f,-,%d,%d,%f\n", spa.jd, spa.lambda_na, spa.ayanamsha, MIN(V), SEC(V), TRD(V));
-        printf("%f=[%dm, %ds, %ft]\n",vakyas[i], MIN(V), SEC(V), TRD(V));
+        // printf("%f=[%dm, %ds, %ft]\n",vakyas[i], MIN(V), SEC(V), TRD(V));
     }
 }
 
@@ -60,21 +60,20 @@ int main (int argc, char *argv[])
 
     // spa_calculate(&spa, 'f');
 
-    spa.jd = 2342440.5000000;
-    set_to_target_na_longitude(0);
-    // spa.jd = 2280344.75;
-    
-    FILE *vakya_csv;
-    char file_path[MAXCHAR] = "./tables/spa_yogyadi_vakyas_1701AD.csv";
+    for(spa.jd = 2460048.5000000; spa.jd <= 2460048.5000000 + 365.26*61; spa.jd+=365/2){
+        set_to_target_na_longitude(0);
+        FILE *vakya_csv;
+        char file_path[MAXCHAR];
+        sprintf(file_path, "./yogyadi_tables/spa_yogyadi_vakyas_%dAD.csv", (int)(spa.jd/365.2422-4712));
+        vakya_csv = fopen(file_path, "w+");
+        fprintf(vakya_csv, "jul_day,true_long (na),true_long (sa),ayanamsha,vakya_sign,min,sec,trd\n");
 
-    vakya_csv = fopen(file_path, "w+");
+        for(int i=0; i<=11; i++){
+            set_to_target_na_longitude(i*30);
+            print_vakyas(vakya_csv);
+        }
 
-    fprintf(vakya_csv, "jul_day,true_long (na),true_long (sa),ayanamsha,vakya_sign,min,sec,trd\n");
-    for(int i=0; i<=11; i++){
-        set_to_target_na_longitude(i*30);
-        print_vakyas(vakya_csv);
+        printf("\nSuccessfully generated file %s\n", file_path);
     }
-
-    printf("\nSuccessfully generated file %s\n", file_path);
     return 0;
 }

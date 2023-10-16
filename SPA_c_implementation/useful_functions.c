@@ -14,10 +14,11 @@ void set_to_target_na_longitude(double target){
     while(delta >= epsilon || delta <= -epsilon){
         delta = spa.lambda_na - target;
         spa_calculate(&spa, 't');
-        printf("JD = %f, Longitude = %f, delta = %f\t", spa.jd, spa.lambda_na, delta);
+        // printf("JD = %f, Longitude = %f, delta = %f\t", spa.jd, spa.lambda_na, delta);
         if(delta >= epsilon || delta <= -epsilon){
+            if(spa.lambda_na>=355) spa.lambda_na -= 360;
             spa.jd -= spa.lambda_na - target;
-            printf("Decreasing JD by %f\n", spa.lambda_na);
+            // printf("Decreasing JD by %f\n", spa.lambda_na);
         }
     }
     // printf("\nJD set to %f: True Nirayana Longitude = %f+/-%f\n", spa.jd, spa.lambda_na, delta);

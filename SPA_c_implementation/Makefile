@@ -24,5 +24,5 @@ generate_longitude_tables_from_jd:
 	@$(OUTPUTDIR)/spa_table_generator_from_jd.o
 .PHONY: generate_yogyadi_vakyas
 generate_yogyadi_vakyas:
-	@gcc vakya_calculator.c spa.c -lm -o $(OUTPUTDIR)/vakya_calculator.o
-	@$(OUTPUTDIR)/vakya_calculator.o
+	@gcc yogyadi_vakya_calculator.c spa.c -lm -o $(OUTPUTDIR)/yogyadi_vakya_calculator.o
+	@$(OUTPUTDIR)/yogyadi_vakya_calculator.o
