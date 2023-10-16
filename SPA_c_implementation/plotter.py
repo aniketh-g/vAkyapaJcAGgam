@@ -26,7 +26,7 @@ plotfilename = "./graphs/single_year/plot"
 for line in lines:
     plot_data = pd.read_csv(line)
 
-    thetas = plot_data['theta']
+    thetas = plot_data['theta_na']
     rs = plot_data['r']
     plt.figure(figsize=(10,10))
     plt.polar(thetas*d2r, rs-r0, label="%s"%line[-8:-4])
@@ -37,4 +37,4 @@ for line in lines:
     img.save('%s.png'%(plotfilename + '_' + line[-8:-4]))
     print("Plotted %s"%(plotfilename + '_' + line[-8:-4]))
 print("Finished successfully!")
-    # plt.show()
+# plt.show()

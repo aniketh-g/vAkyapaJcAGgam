@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
         
         f_date_list = fopen(date_list_name,"r");
         f_plot_data = fopen(plot_data_name, "w+");
-        fprintf(f_plot_data,"theta,r\n");
+        fprintf(f_plot_data,"jd,theta_na,theta_sa,r\n");
         
         while (feof(f_date_list) != true)
         {
@@ -60,9 +60,8 @@ int main (int argc, char *argv[])
             spa.second        = atof(strtok(NULL, ","));
 
             //call the SPA calculate function and pass the SPA structure
-            result = spa_calculate(&spa, 'f');
 
-            if (result == 0)  fprintf(f_plot_data,"%f,%f\n", spa.lambda_na, spa.r);
+            if (spa_calculate(&spa, 'f') == 0)  fprintf(f_plot_data,"%f,%f,%f,%f\n", spa.jd, spa.lambda_na, spa.lambda, spa.r);
             else printf("SPA Error Code: %d\n", result);
         }
         printf("Successfully generated "); puts(plot_data_name);

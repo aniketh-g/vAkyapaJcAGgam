@@ -56,7 +56,7 @@ int main (int argc, char *argv[])
 
     //call the SPA calculate function and pass the SPA structure
 
-    spa.jd = 2202332.87648;
+    spa.jd = 2460779.5000000;
     result = spa_calculate(&spa, 't');
 
     if (result == 0)  //check for SPA errors
@@ -82,9 +82,9 @@ int main (int argc, char *argv[])
         min = 60.0*(spa.sunset - (int)(spa.sunset));
         sec = 60.0*(min - (int)min);
         printf("Sunset:        %02d:%02d:%02d Local Time\n", (int)(spa.sunset), (int)min, (int)sec);
-        printf("Longitude: %f degrees\n", spa.lambda);
+        printf("Longitude: %f degrees\n", spa.lambda_na);
 
-        printf("Long = %f, ayanamsha = %f", spa.alpha, spa.ayanamsha);
+        printf("ayanamsha = %f", spa.ayanamsha);
 
     } else printf("SPA Error Code: %d\n", result);
 

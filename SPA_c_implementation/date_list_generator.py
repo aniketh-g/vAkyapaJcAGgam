@@ -4,8 +4,11 @@ import csv
 
 date_list_csv = ".outputs/date_list.csv"
 
-start_dates = [astropy.time.Time("1701-06-10 3:38:2.73", scale="utc"),
-               astropy.time.Time("1531-03-21 3:38:2.73", scale="utc")] #8h41m11.97s after sunrise in Ujjain which is 5h3m9.24s ahead of greenwich
+start_dates = [astropy.time.Time("2001-03-21 0:00:00", scale="utc"),
+        #        astropy.time.Time("1701-03-21 0:00:00", scale="utc"),
+               astropy.time.Time("1501-03-21 0:00:00", scale="utc"),
+        #        astropy.time.Time("1001-03-21 0:00:00", scale="utc"),
+               astropy.time.Time("0501-03-21 0:00:00", scale="utc")] #8h41m11.97s after sunrise in Ujjain which is 5h3m9.24s ahead of greenwich
 m = []
 n = 1 #interval in days
 for sd in start_dates:
@@ -17,4 +20,4 @@ for sd in start_dates:
 with open("./outputs/list_of_years.txt", 'w') as list_of_years_csv:
         [list_of_years_csv.write("./outputs/date_list_%s.csv\n"%f'{sd.ymdhms.year:04}') for sd in start_dates]
 with open("./outputs/plot_list.txt", 'w') as list_of_years_csv:
-        [list_of_years_csv.write("./outputs/plot_data_%s.csv\n"%f'{sd.ymdhms.year:04}') for sd in start_dates]
+        [list_of_years_csv.write("./tables/spa_the_rs_%s.csv\n"%f'{sd.ymdhms.year:04}') for sd in start_dates]

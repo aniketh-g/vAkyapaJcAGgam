@@ -7,6 +7,10 @@
 #include "useful_functions.c"
 
 #define MAXCHAR 1000
+#define V fabs(vakyas[i])
+#define MIN(v) (int)floor(V*60)
+#define SEC(v) (int)floor((V*60-(int)floor(V*60))*60)
+#define TRD(v) ((V*60-(int)floor(V*60))*60-(int)floor((V*60-(int)floor(V*60))*60))*60
 
 void print_vakyas(FILE *vakya_file){
     double longs[48];
@@ -14,19 +18,17 @@ void print_vakyas(FILE *vakya_file){
     double vakyas[48];
     vakyas[0]=0;
     int i = 0;
-    // printf("Starting on JD = %f\n", spa.jd);
-    // printf("On JD %f, True long = %fdeg\t ayanamsha = %fdeg\t", spa.jd, spa.lambda_na, spa.ayanamsha);
     spa_calculate(&spa, 't');
-    fprintf(vakya_file, "%f,%f,%f,%f\n", spa.jd, spa.lambda_na, spa.lambda, spa.ayanamsha);
-    // printf("vakyas[%d]=%fd or %dm%fs\n", i, vakyas[i], (int)floor(fabs(vakyas[i])*60), 60*(fabs(vakyas[i])*60-(int)floor(fabs(vakyas[i])*60)));
     for(i=1; i<=4; i++){
         spa.jd = spa.jd + 8;
         spa_calculate(&spa, 't');
-        // printf("On JD %f, True long = %fdeg\t ayanamsha = %fdeg\t", spa.jd, spa.lambda_na, spa.ayanamsha);
         longs[i] = spa.lambda_na;
         vakyas[i] = limit_degrees(longs[i] - longs[i-1])-8;
-        fprintf(vakya_file, "%f,%f,%f,%f\n", spa.jd, spa.lambda_na, spa.lambda, spa.ayanamsha);
-        // printf("%f=[%d, %fs]\n", vakyas[i], (int)floor(fabs(vakyas[i])*60), 60*(fabs(vakyas[i])*60-(int)floor(fabs(vakyas[i])*60)));
+        if(vakyas[i] >= 0)
+            fprintf(vakya_file, "%f,%f,%f,+,%d,%d,%f\n", spa.jd, spa.lambda_na, spa.ayanamsha, MIN(V), SEC(V), TRD(V));
+        else
+            fprintf(vakya_file, "%f,%f,%f,-,%d,%d,%f\n", spa.jd, spa.lambda_na, spa.ayanamsha, MIN(V), SEC(V), TRD(V));
+        printf("%f=[%dm, %ds, %ft]\n",vakyas[i], MIN(V), SEC(V), TRD(V));
     }
 }
 
@@ -58,7 +60,7 @@ int main (int argc, char *argv[])
 
     // spa_calculate(&spa, 'f');
 
-    spa.jd = 2342488.5000000;
+    spa.jd = 2342440.5000000;
     set_to_target_na_longitude(0);
     // spa.jd = 2280344.75;
     
@@ -66,13 +68,13 @@ int main (int argc, char *argv[])
     char file_path[MAXCHAR] = "./tables/spa_yogyadi_vakyas_1701AD.csv";
 
     vakya_csv = fopen(file_path, "w+");
-    fprintf(vakya_csv,"jul_day,true_long (na),true_long (sa),ayanamsha\n");
 
+    fprintf(vakya_csv, "jul_day,true_long (na),true_long (sa),ayanamsha,vakya_sign,min,sec,trd\n");
     for(int i=0; i<=11; i++){
         set_to_target_na_longitude(i*30);
         print_vakyas(vakya_csv);
     }
 
-    printf("\nSuccessfully computed sidereal longitudes\n");
+    printf("\nSuccessfully generated file %s\n", file_path);
     return 0;
 }
