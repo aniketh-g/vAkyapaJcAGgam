@@ -143,7 +143,7 @@ typedef struct
     double epsilon;     //ecliptic true obliquity  [degrees]
 
     double del_tau;     //aberration correction [degrees]
-    double lamda;       //apparent sun longitude [degrees]
+    double lambda;       //apparent sun longitude [degrees]
     double nu0;         //Greenwich mean sidereal time [degrees]
     double nu;          //Greenwich sidereal time [degrees]
 
@@ -177,7 +177,8 @@ typedef struct
     double sunrise;      //local sunrise time (+/- 30 seconds) [fractional hour]
     double sunset;       //local sunset time (+/- 30 seconds) [fractional hour]
 
-    double alpha_na;     //nirayana longitude
+    double lambda_na;     //nirayana longitude
+    double ayanamsha;     //ayanamsha
 } spa_data;
 
 //-------------- Utility functions for other applications (such as NREL's SAMPA) --------------
@@ -185,8 +186,8 @@ double deg2rad(double degrees);
 double rad2deg(double radians);
 double limit_degrees(double degrees);
 double third_order_polynomial(double a, double b, double c, double d, double x);
-double geocentric_right_ascension(double lamda, double epsilon, double beta);
-double geocentric_declination(double beta, double epsilon, double lamda);
+double geocentric_right_ascension(double lambda, double epsilon, double beta);
+double geocentric_declination(double beta, double epsilon, double lambda);
 double observer_hour_angle(double nu, double longitude, double alpha_deg);
 void   right_ascension_parallax_and_topocentric_dec(double latitude, double elevation,
 	         double xi, double h, double delta, double *delta_alpha, double *delta_prime);

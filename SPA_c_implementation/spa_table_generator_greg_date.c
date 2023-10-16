@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
     char row[MAXCHAR];
     double second;
     char date_list_name[MAXCHAR] = "./outputs/date_list_xxxx.csv";
-    char plot_data_name[MAXCHAR] = "./outputs/plot_data_";
+    char plot_data_name[MAXCHAR] = "./tables/spa_the_rs_xxxx.csv";
     char line[MAXCHAR];
     
 
@@ -62,7 +62,7 @@ int main (int argc, char *argv[])
             //call the SPA calculate function and pass the SPA structure
             result = spa_calculate(&spa, 'f');
 
-            if (result == 0)  fprintf(f_plot_data,"%f,%f\n", spa.alpha, spa.r);
+            if (result == 0)  fprintf(f_plot_data,"%f,%f\n", spa.lambda_na, spa.r);
             else printf("SPA Error Code: %d\n", result);
         }
         printf("Successfully generated "); puts(plot_data_name);

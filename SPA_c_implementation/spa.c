@@ -831,22 +831,22 @@ double greenwich_sidereal_time (double nu0, double delta_psi, double epsilon)
     return nu0 + delta_psi*cos(deg2rad(epsilon));
 }
 
-double geocentric_right_ascension(double lamda, double epsilon, double beta)
+double geocentric_right_ascension(double lambda, double epsilon, double beta)
 {
-    double lamda_rad   = deg2rad(lamda);
+    double lambda_rad   = deg2rad(lambda);
     double epsilon_rad = deg2rad(epsilon);
 
-    return limit_degrees(rad2deg(atan2(sin(lamda_rad)*cos(epsilon_rad) -
-                                       tan(deg2rad(beta))*sin(epsilon_rad), cos(lamda_rad))));
+    return limit_degrees(rad2deg(atan2(sin(lambda_rad)*cos(epsilon_rad) -
+                                       tan(deg2rad(beta))*sin(epsilon_rad), cos(lambda_rad))));
 }
 
-double geocentric_declination(double beta, double epsilon, double lamda)
+double geocentric_declination(double beta, double epsilon, double lambda)
 {
     double beta_rad    = deg2rad(beta);
     double epsilon_rad = deg2rad(epsilon);
 
     return rad2deg(asin(sin(beta_rad)*cos(epsilon_rad) +
-                        cos(beta_rad)*sin(epsilon_rad)*sin(deg2rad(lamda))));
+                        cos(beta_rad)*sin(epsilon_rad)*sin(deg2rad(lambda))));
 }
 
 double observer_hour_angle(double nu, double longitude, double alpha_deg)
@@ -1014,6 +1014,11 @@ double ayanamsha(double jd)
 {
     double d = jd - 2280627.5;
     return 17.327222222222222 + (50.17470977412731/3600)*(d/365.25) + (0.000222/3600)*(d/365.25)*(d/365.25);
+    /* Formula taken from 
+        Determination of the date of the First Point of Aries held fixed using a combined method of Astronomy and Astrology.pdf
+    */
+    // double d = jd - 2280627.5;
+    // return 19.6894444444;
     // return 0;
 }
 
@@ -1050,12 +1055,12 @@ void calculate_geocentric_sun_right_ascension_and_declination(spa_data *spa)
     spa->epsilon  = ecliptic_true_obliquity(spa->del_epsilon, spa->epsilon0);
 
     spa->del_tau   = aberration_correction(spa->r);
-    spa->lamda     = apparent_sun_longitude(spa->theta, spa->del_psi, spa->del_tau);
+    spa->lambda     = apparent_sun_longitude(spa->theta, spa->del_psi, spa->del_tau);
     spa->nu0       = greenwich_mean_sidereal_time (spa->jd, spa->jc);
     spa->nu        = greenwich_sidereal_time (spa->nu0, spa->del_psi, spa->epsilon);
 
-    spa->alpha = geocentric_right_ascension(spa->lamda, spa->epsilon, spa->beta);
-    spa->delta = geocentric_declination(spa->beta, spa->epsilon, spa->lamda);
+    spa->alpha = geocentric_right_ascension(spa->lambda, spa->epsilon, spa->beta);
+    spa->delta = geocentric_declination(spa->beta, spa->epsilon, spa->lambda);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1169,7 +1174,8 @@ int spa_calculate(spa_data *spa, char use_julian_day)
                                                                            spa->delta_prime);
         spa->azimuth       = topocentric_azimuth_angle(spa->azimuth_astro);
 
-        spa->alpha_na      = spa->alpha - ayanamsha(spa->jd);
+        spa->lambda_na      = limit_degrees(spa->lambda - ayanamsha(spa->jd));
+        spa->ayanamsha     = ayanamsha(spa->jd);
 
         if ((spa->function == SPA_ZA_INC) || (spa->function == SPA_ALL))
             spa->incidence  = surface_incidence_angle(spa->zenith, spa->azimuth_astro,

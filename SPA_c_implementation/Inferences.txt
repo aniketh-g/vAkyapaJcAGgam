@@ -1,0 +1,17 @@
+Ujjain Longitude = 75.7683
+Ujjain Time = UT + 05:03:4.39
+
+MeṣaSaṅkrānti in 1701AD occurs on
+Julian Day = 2342436.330608 = UT 1701-04-09 19:56:05
+                            = UJ 1701-04-10 00:59:09
+Ahargaṇa   = 1753970.035911 = UJ 1701-04-09 06:51:43
+
+
+Alt:
+Kali Ahargana Date (KAD) = JD - 588464.54
+[https://medium.com/thoughts-on-jyotish/the-kali-epoch-and-ahargana-part-6-utilising-julian-day-number-to-determine-ahargana-9068deac032c]
+
+MeṣaSaṅkrānti in 1701AD occurs on
+Julian Day     = 2342436.330608
+    -588464.54 = 1753971.79061
+Ahargaṇa       = 1753970.035911

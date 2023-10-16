@@ -2,10 +2,10 @@ import astropy.time
 import math
 import csv
 
-date_list_csv = "outputs/date_list.csv"
+date_list_csv = ".outputs/date_list.csv"
 
-start_dates = [astropy.time.Time("2023-03-21 00:00:00", scale="utc"),
-               astropy.time.Time("1532-01-08 06:00:00", scale="utc")]
+start_dates = [astropy.time.Time("1701-06-10 3:38:2.73", scale="utc"),
+               astropy.time.Time("1531-03-21 3:38:2.73", scale="utc")] #8h41m11.97s after sunrise in Ujjain which is 5h3m9.24s ahead of greenwich
 m = []
 n = 1 #interval in days
 for sd in start_dates:

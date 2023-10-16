@@ -9,17 +9,20 @@ clean:
 test_spa:
 	@gcc spa.c spa_tester.c -lm -o $(OUTPUTDIR)/test_spa.o
 	@$(OUTPUTDIR)/test_spa.o
-.PHONY: compute_longitudes
-compute_longitudes:
-	@gcc spa_table_generator.c spa.c -lm -o $(OUTPUTDIR)/spa_table_generator.o
-	@$(OUTPUTDIR)/spa_table_generator.o
+.PHONY: generate_longitude_tables_from_greg_date
+generate_longitude_tables_from_greg_date:
+	@python date_list_generator.py
+	@gcc spa_table_generator_greg_date.c spa.c -lm -o $(OUTPUTDIR)/spa_table_generator_greg_date.o
+	@$(OUTPUTDIR)/spa_table_generator_greg_date.o
 .PHONY: plot
 plot:
-	@python date_list_generator.py
-	@make compute_longitudes
-	# @python plotter.
-
-.PHONY: compute_sidereal_longitudes
-compute_sidereal_longitudes:
-	@gcc sidereal_longitude_calculator.c spa.c -lm -o $(OUTPUTDIR)/sidereal_longitude_calculator.o
-	@$(OUTPUTDIR)/sidereal_longitude_calculator.o
+	@make generate_longitude_tables_from_greg_date
+	@python plotter.py
+.PHONY: generate_longitude_tables_from_jd
+generate_longitude_tables_from_jd:
+	@gcc spa_table_generator_from_jd.c spa.c -lm -o $(OUTPUTDIR)/spa_table_generator_from_jd.o
+	@$(OUTPUTDIR)/spa_table_generator_from_jd.o
+.PHONY: generate_yogyadi_vakyas
+generate_yogyadi_vakyas:
+	@gcc vakya_calculator.c spa.c -lm -o $(OUTPUTDIR)/vakya_calculator.o
+	@$(OUTPUTDIR)/vakya_calculator.o
