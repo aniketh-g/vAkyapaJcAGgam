@@ -5,5 +5,3 @@ Astronomers of yore formulated these vākya-s based on the observations of their
 
 ## Yogyādivākya-s
 The Yogyādivākya-s are a set of 48 vākya-s (that begin with "yogya", as the name suggests) of 4 letters/digits each, arranged in 3 verses in the Anuṣṭup meter. They give the difference in the longitude of the mean and true Sun, starting from the beginning of each Solar month, at an interval of eight days.
-
-Here, it is attempted to exploit the anomalistic period of the Sun
