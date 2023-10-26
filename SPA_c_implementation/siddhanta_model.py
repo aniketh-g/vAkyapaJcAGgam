@@ -70,7 +70,7 @@ def generate_vakyas(ahargana):
 
 R   = 1
 r0  = 3/80
-Rv  = lambda ahargana, mandocca: np.sqrt(R**2-(r0*np.sin(theta_t(ahargana, mandocca)*np.pi/180-mandocca))**2)-r0*np.cos(theta_t(ahargana, mandocca)*np.pi/180-mandocca)
+Rv  = lambda ahargana, mandocca: np.sqrt(R**2-(r0*np.sin(theta_0(ahargana, mandocca)*np.pi/180-mandocca))**2)-r0*np.cos(theta_0(ahargana, mandocca)*np.pi/180-mandocca)
 K   = lambda ahargana, mandocca: R**2/Rv(ahargana, mandocca)
 
 jd_from_ag = lambda ahargana: ahargana + 588464.54
