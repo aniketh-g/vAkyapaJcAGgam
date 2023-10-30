@@ -15,3 +15,13 @@ MeṣaSaṅkrānti in 1701AD occurs on
 Julian Day     = 2342436.330608
     -588464.54 = 1753971.79061
 Ahargaṇa       = 1753970.035911
+
+Julian days in which true nirayana longitude is 0:
+2460779.417889
+2461144.674022
+2461509.919719
+
+JDs in which true Sayana longitude is 0:
+2460754.876828
+2461120.116000
+2461485.351278

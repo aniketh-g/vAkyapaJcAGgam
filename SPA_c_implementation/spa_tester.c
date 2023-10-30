@@ -26,10 +26,14 @@
 
 #include <stdio.h>
 #include "spa.h"  //include the SPA header file
+#include "useful_functions.c"
+
+double sidereal_year = 365.256363004;
+double tropical_year = 365.2421897;
 
 int main (int argc, char *argv[])
 {
-    spa_data spa;  //declare the SPA structure
+    // spa_data spa;  //declare the SPA structure
     int result;
     float min, sec;
 
@@ -56,35 +60,45 @@ int main (int argc, char *argv[])
 
     //call the SPA calculate function and pass the SPA structure
 
-    spa.jd = 2460779.5000000;
+    spa.jd = 2460779.417889+365*1;
+    set_to_target_sa_longitude(0);
     result = spa_calculate(&spa, 't');
 
     if (result == 0)  //check for SPA errors
     {
         //display the results inside the SPA structure
 
+        // printf("Julian Day:    %.6f\n",spa.jd);
+        // printf("Direct Sayana Longitude:      %.6f degrees\n", spa.theta);
+        // printf("Nutation:                      %.6f degrees\n", spa.del_psi);
+        // printf("Aberration:                   %.6f degrees\n", spa.del_tau);
+        // printf("Apparent Nirayana Longitude:   %.6f degrees\n", spa.lambda_na);
+        // printf("Apparent Sayana Longitude:    %.6f degrees\n", spa.lambda);
+        // printf("ayanamsha:                    %.6f degrees\n", spa.ayanamsha);
         printf("Julian Day:    %.6f\n",spa.jd);
-        printf("L:             %.6e degrees\n",spa.l);
-        printf("B:             %.6e degrees\n",spa.b);
-        printf("R:             %.6f AU\n",spa.r);
-        printf("H:             %.6f degrees\n",spa.h);
-        printf("Delta Psi:     %.6e degrees\n",spa.del_psi);
-        printf("Delta Epsilon: %.6e degrees\n",spa.del_epsilon);
-        printf("Epsilon:       %.6f degrees\n",spa.epsilon);
-        printf("Zenith:        %.6f degrees\n",spa.zenith);
-        printf("Azimuth:       %.6f degrees\n",spa.azimuth);
-        printf("Incidence:     %.6f degrees\n",spa.incidence);
+        printf("Direct Sayana Longitude:     "); print_dms(spa.theta);
+        printf("Direct Nirayana Longitude:   "); print_dms(spa.theta-spa.ayanamsha);
+        printf("Nutation:                     "); print_dms(spa.del_psi);
+        printf("Aberration:                   "); print_dms(spa.del_tau);
+        printf("Apparent Nirayana Longitude:  "); print_dms(spa.lambda_na);
+        printf("Apparent Sayana Longitude:   "); print_dms(spa.lambda);
+        printf("ayanamsha:                   "); print_dms(spa.ayanamsha);
+        // printf("Delta Epsilon:                %.6f degrees\n",spa.del_epsilon);
+        // printf("Earth Heliocentric Latitude : %.6f degrees\n",spa.b);
+        // printf("Radius:        %.6f AU\n",spa.r);
+        // printf("Hour Angle:    %.6f degrees\n",spa.h);
+        // printf("Epsilon:       %.6f degrees\n",spa.epsilon);
+        // printf("Zenith:        %.6f degrees\n",spa.zenith);
+        // printf("Azimuth:       %.6f degrees\n",spa.azimuth);
+        // printf("Incidence:     %.6f degrees\n",spa.incidence);
 
-        min = 60.0*(spa.sunrise - (int)(spa.sunrise));
-        sec = 60.0*(min - (int)min);
-        printf("Sunrise:       %02d:%02d:%02d Local Time\n", (int)(spa.sunrise), (int)min, (int)sec);
+        // min = 60.0*(spa.sunrise - (int)(spa.sunrise));
+        // sec = 60.0*(min - (int)min);
+        // printf("Sunrise:       %02d:%02d:%02d Local Time\n", (int)(spa.sunrise), (int)min, (int)sec);
 
-        min = 60.0*(spa.sunset - (int)(spa.sunset));
-        sec = 60.0*(min - (int)min);
-        printf("Sunset:        %02d:%02d:%02d Local Time\n", (int)(spa.sunset), (int)min, (int)sec);
-        printf("Longitude: %f degrees\n", spa.lambda_na);
-
-        printf("ayanamsha = %f", spa.ayanamsha);
+        // min = 60.0*(spa.sunset - (int)(spa.sunset));
+        // sec = 60.0*(min - (int)min);
+        // printf("Sunset:        %02d:%02d:%02d Local Time\n", (int)(spa.sunset), (int)min, (int)sec);
 
     } else printf("SPA Error Code: %d\n", result);
 
