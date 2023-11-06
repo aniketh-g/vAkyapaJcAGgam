@@ -68,6 +68,19 @@ def generate_vakyas(ahargana):
         # print("\t\t\t\t\t\t\t\t\t\tvakya=",to_rdm(v[i]))
         ahargana = ahargana + 8
 
+def ayanamsha (jd):
+    d = jd - 2415020.0 # AD1900 Jan 1
+    p = 50.2564 + 0.000222*d/365.25
+    return 22+27/60+37/3600 + (p/3600)*(d/365.25)
+
+def ayanamsha_1 (jd):
+    d = jd - 2415020.0 # AD1900 Jan 1
+    p = 50.2564 + 0.000222*d/365.25
+    return 22+27/60+37/3600 + (p/3600)*(d/365.25)
+
+def a(x):
+    return 0
+
 R   = 1
 r0  = 3/80
 Rv  = lambda ahargana, mandocca: np.sqrt(R**2-(r0*np.sin(theta_0(ahargana, mandocca)*np.pi/180-mandocca))**2)-r0*np.cos(theta_0(ahargana, mandocca)*np.pi/180-mandocca)
